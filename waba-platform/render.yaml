@@ -1,0 +1,42 @@
+# One-click deploy blueprint for Render (render.com)
+services:
+  - type: web
+    name: waba-campaign-platform
+    runtime: docker
+    plan: starter            # needs a paid plan: free plans have no persistent disk
+    healthCheckPath: /api/health
+    disk:
+      name: platform-data
+      mountPath: /app/data   # SQLite database lives here so it survives restarts
+      sizeGB: 1
+    envVars:
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: PUBLIC_BASE_URL
+        sync: false          # you fill this in after first deploy (your .onrender.com address)
+      - key: TIMESMOBILE_BASE_URL
+        sync: false
+      - key: TIMESMOBILE_API_KEY
+        sync: false
+      - key: LSQ_BASE_URL
+        value: https://api-in21.leadsquared.com/v2
+      - key: LSQ_ACCESS_KEY
+        sync: false
+      - key: LSQ_SECRET_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: APPROVER_WHATSAPP_NUMBER
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: ALERT_FROM_EMAIL
+        sync: false
+      - key: DIGEST_RECIPIENTS
+        sync: false

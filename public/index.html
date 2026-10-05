@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WABA Campaign Platform</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <h1>WABA Campaign Platform</h1>
+    <div id="loginForm">
+      <input id="loginEmail" placeholder="Email" type="email" />
+      <input id="loginPassword" placeholder="Password" type="password" />
+      <button onclick="doLogin()">Log in</button>
+      <p id="loginError" class="error-text"></p>
+    </div>
+    <div id="bootstrapNotice" class="hidden">
+      <p class="hint">No users exist yet - create the first admin account.</p>
+      <input id="bsName" placeholder="Your name" />
+      <input id="bsEmail" placeholder="Email" type="email" />
+      <input id="bsPassword" placeholder="Password" type="password" />
+      <button onclick="doBootstrap()">Create account</button>
+    </div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <header>
+    <h1>WABA Campaign Platform</h1>
+    <span id="statusBadge" class="badge">checking...</span>
+    <button class="logout-btn" onclick="doLogout()">Log out</button>
+  </header>
+
+  <nav id="tabs">
+    <button data-tab="dashboard" class="tab active">1. Dashboard</button>
+    <button data-tab="charter" class="tab">2. Charter-wise</button>
+    <button data-tab="deepdive" class="tab">3. Deep-dive</button>
+    <button data-tab="budget" class="tab">4. Budget</button>
+    <button data-tab="create" class="tab">5. Create Campaign</button>
+    <button data-tab="assign" class="tab">6. Assignment</button>
+    <button data-tab="search" class="tab">7. Search/Compare</button>
+    <button data-tab="ai" class="tab">8. AI Assist</button>
+    <button data-tab="planner" class="tab">9. Planner</button>
+  </nav>
+
+  <main id="pages">
+    <!-- Page 1: Dashboard -->
+    <section id="page-dashboard" class="page active">
+      <h2>Main Preview</h2>
+      <div class="row">
+        <label><input type="checkbox" class="rollup-charter" value="DS Reactivation" checked> DS Reactivation</label>
+        <label><input type="checkbox" class="rollup-charter" value="DS Open Cases" checked> DS Open Cases</label>
+        <label><input type="checkbox" class="rollup-charter" value="Agentic" checked> Agentic</label>
+      </div>
+      <div class="row">
+        <input type="date" id="dashFrom" /> <span>to</span> <input type="date" id="dashTo" />
+        <button onclick="loadDashboard()">Load</button>
+      </div>
+      <div id="dashFunnel" class="funnel-grid"></div>
+    </section>
+
+    <!-- Page 2: Charter-wise -->
+    <section id="page-charter" class="page">
+      <h2>Charter-wise Funnel</h2>
+      <div class="row" id="charterCheckboxes"></div>
+      <div class="row">
+        <input type="date" id="charterFrom" /> <span>to</span> <input type="date" id="charterTo" />
+        <button onclick="loadCharterFunnel()">Load</button>
+      </div>
+      <div id="charterResults"></div>
+    </section>
+
+    <!-- Page 3: Deep-dive -->
+    <section id="page-deepdive" class="page">
+      <h2>Deep-dive Comparison</h2>
+      <div class="row">
+        <select id="deepdiveCharter"></select>
+        <input type="date" id="deepdiveFrom" /> <span>to</span> <input type="date" id="deepdiveTo" />
+        <button onclick="loadDeepDive()">Load</button>
+      </div>
+      <div id="deepdiveResults"></div>
+    </section>
+
+    <!-- Page 4: Budget -->
+    <section id="page-budget" class="page">
+      <h2>Cost &amp; Budget Dashboard</h2>
+      <div class="card">
+        <h3>Set a budget</h3>
+        <div class="row">
+          <select id="budgetCharter"><option value="">-- overall --</option></select>
+          <select id="budgetPeriodType"><option value="week">Week</option><option value="month">Month</option></select>
+          <input type="date" id="budgetPeriodStart" />
+          <input type="number" id="budgetAmount" placeholder="Amount (₹)" />
+          <button onclick="setBudget()">Save</button>
+        </div>
+      </div>
+      <button onclick="loadBudget()">Refresh charter spend</button>
+      <div id="budgetResults"></div>
+      <h3>Week-wise spend</h3>
+      <div id="weekWiseResults"></div>
+    </section>
+
+    <!-- Page 5: Create Campaign -->
+    <section id="page-create" class="page">
+      <h2>Template &amp; Campaign Creation</h2>
+
+      <div class="card">
+        <h3>Step 1: Message</h3>
+        <textarea id="newMessageBody" placeholder="Write message body... use {{1}} for variables"></textarea>
+        <button onclick="saveMessage()">Save message</button>
+        <select id="messageSelect"><option value="">-- or select previous --</option></select>
+        <div class="row">
+          <input id="aiPrompt" placeholder="Or describe what you want (AI draft)..." />
+          <button onclick="generateWithAI()">Generate with AI</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Step 2: Submit template to TimesMobile</h3>
+        <input id="templateName" placeholder="Template name (no spaces, lowercase_underscore)" />
+        <select id="templateCategory">
+          <option value="MARKETING">Marketing</option>
+          <option value="UTILITY">Utility</option>
+          <option value="AUTHENTICATION">Authentication</option>
+        </select>
+        <button onclick="submitTemplate()">Submit for approval</button>
+        <select id="templateSelect"><option value="">-- or select existing template --</option></select>
+        <button onclick="refreshTemplateStatus()">Refresh status</button>
+        <div id="templateStatusBox"></div>
+      </div>
+
+      <div class="card">
+        <h3>Step 3: Cohort + Charter + Schedule</h3>
+        <select id="cohortSelect"><option value="">-- loading cohorts --</option></select>
+        <select id="charterGranularSelect"></select>
+        <input type="date" id="campaignSchedule" />
+        <input id="campaignName" placeholder="Campaign name" />
+        <button onclick="createCampaign()">Create campaign (draft)</button>
+      </div>
+
+      <div class="card">
+        <h3>Step 4: Test &amp; Approve</h3>
+        <div id="campaignActionsBox"></div>
+      </div>
+    </section>
+
+    <!-- Page 6: Assignment -->
+    <section id="page-assign" class="page">
+      <h2>Lead Assignment</h2>
+      <div class="row">
+        <select id="assignCampaignSelect"></select>
+        <button onclick="loadQualifiedLeads()">Load qualified leads</button>
+        <button onclick="recomputeQualification()">Recompute qualification</button>
+      </div>
+      <table id="qualifiedTable">
+        <thead><tr><th><input type="checkbox" onclick="toggleAllLeads(this)"></th><th>Lead ID</th><th>Reason</th><th>Current Stage</th><th>Qualified At</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="row">
+        <select id="bdeSelect"><option value="">-- select BDE --</option></select>
+        <button onclick="assignSelected()">Assign selected</button>
+      </div>
+    </section>
+
+    <!-- Page 7: Search/Compare -->
+    <section id="page-search" class="page">
+      <h2>Campaign Search &amp; Comparison</h2>
+      <div class="row">
+        <input id="campaignSearchBox" placeholder="Search campaigns by name..." oninput="searchCampaigns()" />
+      </div>
+      <table id="campaignSearchTable">
+        <thead><tr><th></th><th>Name</th><th>Charter</th><th>Status</th><th>Created</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <button onclick="compareSelectedCampaigns()">Compare selected</button>
+      <div id="compareResults"></div>
+    </section>
+
+    <!-- Page 8: AI Assist -->
+    <section id="page-ai" class="page">
+      <h2>AI Assist</h2>
+      <div class="card">
+        <h3>Content Playbook (paste once, used as reference for all AI drafts)</h3>
+        <textarea id="playbookText" placeholder="Paste your message-history/performance analysis here..."></textarea>
+        <button onclick="savePlaybook()">Save playbook</button>
+      </div>
+      <div class="card">
+        <h3>Suggest a send calendar</h3>
+        <input id="calendarConstraint" placeholder='e.g. "only the 1st or 2nd of the month"' />
+        <button onclick="suggestCalendar()">Suggest</button>
+        <pre id="calendarSuggestion"></pre>
+      </div>
+    </section>
+
+    <!-- Page 9: Planner -->
+    <section id="page-planner" class="page">
+      <h2>Monthly Planner &amp; Weekly Digest</h2>
+      <div class="card">
+        <h3>Add a planned entry</h3>
+        <input type="date" id="plannerDate" />
+        <select id="plannerCohort"></select>
+        <select id="plannerMessage"></select>
+        <select id="plannerCharter"></select>
+        <button onclick="addPlannerEntry()">Add to plan</button>
+      </div>
+      <table id="plannerTable">
+        <thead><tr><th>Date</th><th>Cohort</th><th>Charter</th><th>Status</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <h3>Weekly digest archive</h3>
+      <div id="digestArchive"></div>
+    </section>
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

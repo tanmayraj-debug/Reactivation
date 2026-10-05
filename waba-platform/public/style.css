@@ -1,0 +1,52 @@
+* { box-sizing: border-box; }
+body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; background: #f5f5f3; color: #222; margin: 0; }
+.hidden { display: none !important; }
+.hint { font-size: 13px; color: #666; }
+.error-text { color: #b0261e; font-size: 13px; }
+
+.login-screen { display: flex; align-items: center; justify-content: center; height: 100vh; }
+.login-card { background: white; padding: 32px; border-radius: 10px; border: 1px solid #ddd; width: 320px; }
+.login-card h1 { font-size: 18px; margin-bottom: 16px; }
+.login-card input { width: 100%; margin-bottom: 8px; padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
+.login-card button { width: 100%; padding: 9px; border: none; border-radius: 6px; background: #1d1d1b; color: white; cursor: pointer; }
+
+header { background: #1d1d1b; color: white; padding: 14px 24px; display: flex; align-items: center; gap: 12px; }
+header h1 { font-size: 16px; margin: 0; flex: 1; }
+.badge { font-size: 11px; padding: 3px 9px; border-radius: 10px; background: #444; }
+.badge.ok { background: #2f7d4f; }
+.badge.warn { background: #a34b1a; }
+.logout-btn { background: transparent; border: 1px solid #666; color: white; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+
+nav#tabs { display: flex; flex-wrap: wrap; background: white; border-bottom: 1px solid #ddd; padding: 0 12px; }
+.tab { padding: 10px 14px; border: none; background: none; cursor: pointer; font-size: 13px; color: #555; border-bottom: 2px solid transparent; }
+.tab.active { color: #1d1d1b; border-bottom-color: #1d1d1b; font-weight: 600; }
+
+main#pages { max-width: 1100px; margin: 20px auto; padding: 0 16px; }
+.page { display: none; }
+.page.active { display: block; }
+.page h2 { font-size: 16px; margin-bottom: 12px; }
+
+.card { background: white; border: 1px solid #e0dfd9; border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+.card h3 { font-size: 13px; margin: 0 0 10px; color: #555; }
+.row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
+
+input, select, textarea { padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; }
+textarea { width: 100%; min-height: 70px; resize: vertical; }
+button { padding: 8px 14px; border: none; border-radius: 6px; background: #1d1d1b; color: white; cursor: pointer; font-size: 13px; }
+button:hover { background: #333; }
+
+table { width: 100%; border-collapse: collapse; background: white; font-size: 12px; margin-top: 8px; }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid #eee; }
+th { background: #fafaf8; font-weight: 600; }
+
+.funnel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 12px; }
+.funnel-stat { background: white; border: 1px solid #eee; border-radius: 8px; padding: 12px; text-align: center; }
+.funnel-stat .num { font-size: 22px; font-weight: 700; }
+.funnel-stat .label { font-size: 11px; color: #777; margin-top: 4px; }
+
+.status-pill { padding: 2px 8px; border-radius: 10px; font-size: 11px; background: #eee; }
+.status-draft { background: #eee; }
+.status-awaiting_approval { background: #fbe6c9; color: #7a4a0a; }
+.status-launched { background: #d7ecd9; color: #1e5c2a; }
+
+pre { white-space: pre-wrap; background: #fafaf8; padding: 12px; border-radius: 8px; font-size: 13px; }
